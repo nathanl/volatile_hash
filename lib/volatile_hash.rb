@@ -74,6 +74,3 @@ class VolatileHash
 
   end
 end
-
-class VolatileHash
-end
