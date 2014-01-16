@@ -65,7 +65,7 @@ class VolatileHash
       keys.unshift(key)
       data[key] = val
       if keys.length > max_keys
-        keep, toss = keys[0..max_keys], keys[(max_keys + 1)..-1]
+        keep, toss = keys[0..max_keys - 1], keys[max_keys..-1]
         self.keys = keep
         toss.each {|k| data.delete(k) }
       end
