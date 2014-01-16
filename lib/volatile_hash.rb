@@ -47,6 +47,31 @@ class VolatileHash
   end
 
   class LRU
+    attr_accessor :max_keys, :data, :keys
+
+    def initialize(max_keys)
+      self.max_keys = max_keys
+      self.data     = {}
+      self.keys     = []
+    end
+
+    def [](key)
+      return nil unless data.has_key?(key)
+      keys.unshift(keys.delete_at(keys.index(key)))
+      data[key]
+    end
+
+    def []=(key, val)
+      keys.unshift(key)
+      data[key] = val
+      if keys.length > max_keys
+        keep, toss = keys[0..max_keys], keys[(max_keys + 1)..-1]
+        self.keys = keep
+        toss.each {|k| data.delete(k) }
+      end
+      val
+    end
+
   end
 end
 
